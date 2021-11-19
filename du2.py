@@ -12,10 +12,22 @@ with open ("Data_zelivka.csv", encoding="utf8") as csvZelivkaInput,\
         numRow = numRow + 1
         choiceSevenDay = numRow % 7
         if choiceSevenDay == 0:
-            try:
-                print(row[0],row[1],row[2],row[3],row[4],float(row[5]))
-            except ValueError:
-                pass
+            i = 0
+            for row in range(7):
+                try:
+                    i = sum(float(row[5]))
+                    print(row[0],row[1],row[2],row[3],row[4],i)
+                except:
+                    pass
+
+            
+            
+            
+            
+            #try:
+            #    print(row[0],row[1],row[2],row[3],row[4],float(row[5]))
+            #except ValueError:
+            #    pass
 
 
             

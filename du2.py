@@ -1,37 +1,34 @@
 import csv
 import itertools
 import numpy
-
-
-            
+  
 with open ("Data_zelivka.csv", encoding="utf8") as csvZelivkaInput,\
      open("result1.csv","w", encoding="utf8") as vysledek1:
     dataInput = csv.reader(csvZelivkaInput, delimiter = ",")
-    writer = csv.writer(vysledek1)   
-    numRow = 0
-    aveSevenDay = 0
+    writerWeek = csv.writer(vysledek1)   
+    rowNumber = -1
+    avSevenDay = 0
     for row in dataInput:
-        numRow = numRow + 1
-        print(numRow)
-        choiceSevenDay = numRow % 7
-        try:
-            aveSevenDay += float(row[-1])
-        except ValueError:
-            pass
-        if choiceSevenDay == 0:
-            aveSevenDay = aveSevenDay/7
-            writer.writerow([row[0],row[1],row[2],row[3],row[4],float(aveSevenDay)])
-    """
-    minTemp = [] 
-    maxTemp = [] 
-    for row in dataInput:
-        try:
-            minTemp.append([row[2],row[3],row[4],float(row[5])])
-            maxTemp.append([row[2],row[3],row[4],float(row[5])])
-        except:
-            pass
-    theindexmin=minTemp.index(min(minTemp))
-    theindexmax=maxTemp.index(max(maxTemp))
-    print("Minimální hodnota: \n", minTemp[theindexmin]) 
-    print("\n\nMaximální hodnota: \n",maxTemp[theindexmax]) 
-        """
+        rowNumber += 1
+        if rowNumber%7 == 0:
+            firstDayWeek = row
+        rowNumberOneBig = rowNumber + 1
+        avSevenDay += float(row[5])/7
+        if rowNumberOneBig%7 ==0:
+            firstDayWeek[5] = float(avSevenDay)
+            print(firstDayWeek)
+            avSevenDay = 0
+            
+
+    
+
+"""
+with open ("Data_zelivka.csv", encoding="utf8") as csvZelivkaInput:
+    dataInput = csv.reader(csvZelivkaInput, delimiter = ",")
+    rowsmax = max(dataInput, key=lambda row: float(row[5]))
+    print(rowsmax)
+with open ("Data_zelivka.csv", encoding="utf8") as csvZelivkaInput:
+    dataInput = csv.reader(csvZelivkaInput, delimiter = ",")
+    rowsmin = min(dataInput, key=lambda row: float(row[5]))
+    print(rowsmin)
+"""

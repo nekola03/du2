@@ -19,7 +19,11 @@ with open ("Data_zelivka.csv", encoding="utf8") as csvInput,\
     #CYKLUS ČTOUCÍ ŘÁDKY VSTUPU
     for row in dataInput:     
         if rowNumber % 7 == 0:
-            firstDayWeek = row           
+            firstDayWeek = row     
+        if dataInput.line_num == 1:
+            firstDayYear = row
+            calculateYear = int(firstDayYear[2])
+        theYear = int(row[2])      
         try:
             avSevenDay += float(row[5])
             residueDay += 1
@@ -29,11 +33,7 @@ with open ("Data_zelivka.csv", encoding="utf8") as csvInput,\
             print("Na řádku ",dataInput.line_num ," je chybně zadaná hodnota, a proto ji program nezapočítá")
         except:
             print("Na řádku ",dataInput.line_num ," je nesprávně dlouhé pole a proto ji program nezapočítá")
-
-        if dataInput.line_num == 1:
-            firstDayYear = row
-            calculateYear = int(firstDayYear[2])
-        theYear = int(row[2])
+        #ZÁPIS DO SOUBORU S TÝDENNÍMI SOUBORY
         if theYear != calculateYear:
             avYear /= dayYear
             avYear = "{:.4f}".format(avYear)
@@ -57,6 +57,7 @@ with open ("Data_zelivka.csv", encoding="utf8") as csvInput,\
             avSevenDay -= avSevenDay    #odstranění řádku
         rowNumber += 1
 
+    #PŘIDÁNÍ POSLEDNÍHO ŘÁDKU S ROČNÍM PRŮMĚREM
     if (calculateYear == theYear):
         avYear /= dayYear
         avYear = "{:.4f}".format(avYear)
@@ -72,18 +73,16 @@ with open ("Data_zelivka.csv", encoding="utf8") as csvInput,\
         writerWeek.writerow(firstDayWeek)
 
     
-
-
-"""        
+   
 with open ("Data_zelivka.csv", encoding="utf8") as csvInput:
     dataInput = csv.reader(csvInput, delimiter = ",")
-    rowsmax = max(dataInput, key=lambda row: row[5])
+    rowsmax = max(dataInput, key=lambda row: float(row[5]))
     print(rowsmax)
 
 with open ("Data_zelivka.csv", encoding="utf8") as csvInput:
     dataInput = csv.reader(csvInput, delimiter = ",")
-    rowsmin = min(dataInput, key=lambda row: row[5])
+    rowsmin = min(dataInput, key=lambda row: float(row[5]))
     print(rowsmin)
-    """
+
 
     

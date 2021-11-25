@@ -35,8 +35,7 @@ VYSVĚTLENÍ FUNKČNOSTI PROGRAMU
 Bonusový úkol
 
 1. Maximum a minimum
-    1. Znovu načtení souboru a zápis do write, protože soubor byl předem vypotřebován
-    2. Použití funkce min a max se třemi parametry
-        1. Soubor ze kterého chceme vypsat max či min
-        2. Klíč lambda pouze vrací hodnoty
-        3. naposledy vypíšeme poslední řádek s hodnotami float (podmínka)
+    1. inicializace pomocných proměnných
+    2. zápis floatu průtoku v daném řádku (zapsáno ve vyjímce)
+    3. podmínka, že pokud bude hodnotaprůtoku větší (menší) než u doposud největší hodnoty zapíše se do proměné
+    4. po skončení cyklu výpis řádku s nejmenší a největší hodnotou

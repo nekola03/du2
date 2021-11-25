@@ -18,6 +18,8 @@ try:
         residueYear = 0
         dayYear = 0
         avYear = 0
+        max = 0
+        min = 10000
         
         #CYKLUS ČTOUCÍ ŘÁDKY VSTUPU
         for row in dataInput:     
@@ -32,6 +34,7 @@ try:
                 residueDay += 1 
                 avYear += float(row[5]) #suma dní v týdnu
                 residueYear += 1 
+                theDay = float(row[5]) #pomocná hodnota pro výpis největšího a nejmenšího řádku
             except ValueError:
                 print("Na řádku ",dataInput.line_num ," je chybně zadaná hodnota, a proto nedisponuje ve výpočtu průměrů") #výjimka neodstraní celý řádek (neustále existence při opakování 7 dní)
             except IndexError:
@@ -58,6 +61,13 @@ try:
                 residueDay = 0
                 avSevenDay = float(avSevenDay)
                 avSevenDay = 0    #vynulování před znovu-projetím cyklu
+            #VÝPOČET MAXIMA A MINIMA
+            if (theDay > float(max)):
+                maxValue = row
+                max = row[5]
+            if (theDay < float(min)):
+                minValue = row
+                min = row[5]
             rowNumber += 1
 
         #PŘIDÁNÍ POSLEDNÍHO ŘÁDKU S ROČNÍM PRŮMĚREM
@@ -73,22 +83,7 @@ try:
             avSevenDay = "{:.4f}".format(avSevenDay)
             firstDayWeek[5] = avSevenDay
             writerWeek.writerow(firstDayWeek)
-except IOError:
-    print("Chybně načtený soubor")
-#NAČTENÍ MAXIMÁLNÍ HODNOTY A JEJÍHO ŘÁDKU   
-try:    
-    with open ("Data_zelivka.csv", encoding="utf8") as csvInput:
-        dataInput = csv.reader(csvInput, delimiter = ",")
-        rowsmax = max(dataInput, key=lambda row: float(row[5])) #funkce max pro zjištění minima sloupce 5 (float)
-        print(rowsmax)
-except IOError:
-    print("Chybně načtený soubor")   
-
-    #NAČTENÍ MINIMÁLNÍ HODNOTY A JEJÁHO ŘÁDKU
-try:  
-    with open ("Data_zelivka.csv", encoding="utf8") as csvInput:
-        dataInput = csv.reader(csvInput, delimiter = ",")
-        rowsmin = min(dataInput, key=lambda row: float(row[5])) #funkce min pro zjištění minima sloupce 5 (float)
-        print(rowsmin)
-except IOError:
+        print(maxValue)
+        print(minValue)
+except IOError: #výjimka při načtení souboru
     print("Chybně načtený soubor")

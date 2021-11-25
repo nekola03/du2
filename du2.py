@@ -48,6 +48,7 @@ try:
                 avYear = 0 #vynulování před znovu-projetím cyklu
                 residueYear = 0 #vynulování před znovu-projetím cyklu
             dayYear += 1
+            
             #ZÁPIS DO SOUBORU SE SEDMIDENNÍMI HODNOTAMI
             if (rowNumber % 7 == 6):
                 avSevenDay /= 7

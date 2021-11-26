@@ -2,7 +2,6 @@ import csv
 from typing import IO
 
 #NAČTENÍ DAT A ZÁKLADNÍ OPERACE  
-
 try:
     with open ("Data_zelivka.csv", encoding="utf8") as csvInput,\
         open("vystup_7dni.csv","w", encoding="utf8") as csvOutputWeek,\
@@ -11,29 +10,27 @@ try:
         writerWeek = csv.writer(csvOutputWeek)   
         writerYear = csv.writer(csvOutputYear)  
         
-        #DEFINICE POMOCKÝCH PROMĚNNÝCH 
+        #DEFINICE POMOCNÝCH PROMĚNNÝCH 
         rowNumber = 0
         avSevenDay = 0
         residueDay = 0
-        residueYear = 0
         dayYear = 0
         avYear = 0
-        max = 0
-        min = 10000
+        maxCurrent = 0
+        minCurrent = float("inf")
         
         #CYKLUS ČTOUCÍ ŘÁDKY VSTUPU
         for row in dataInput:     
-            if rowNumber % 7 == 0: #výběr pondělí
+            if rowNumber % 7 == 0: #výběr prvního dne sedmidenního rozsahu 
                 firstDayWeek = row     
             if dataInput.line_num == 1: #výběr prvního dne roku
                 firstDayYear = row
                 calculateYear = int(firstDayYear[2])  #pouze úprava na int
             theYear = int(row[2]) #zápis druhého sloupce do roku (bez int)
+            residueDay += 1 
             try:
                 avSevenDay += float(row[5]) #suma dní v týdnu
-                residueDay += 1 
                 avYear += float(row[5]) #suma dní v týdnu
-                residueYear += 1 
                 theDay = float(row[5]) #pomocná hodnota pro výpis největšího a nejmenšího řádku
             except ValueError:
                 print("Na řádku ",dataInput.line_num ," je chybně zadaná hodnota, a proto nedisponuje ve výpočtu průměrů") #výjimka neodstraní celý řádek (neustále existence při opakování 7 dní)
@@ -42,34 +39,34 @@ try:
             #ZÁPIS DO SOUBORU S ROČNÍMI HODNOTAMI
             if theYear != calculateYear:
                 avYear /= dayYear #průměr za rok
-                avYear = "{:.4f}".format(avYear)
-                firstDayYear[5] = avYear 
+                firstDayYear[5] = "{:.4f}".format(avYear) 
                 writerYear.writerow(firstDayYear) #zápis do souboru
-                avYear = float(avYear)
                 firstDayYear = row
                 calculateYear = int(firstDayYear[2])
                 avYear = 0 #vynulování před znovu-projetím cyklu
-                residueYear = 0 #vynulování před znovu-projetím cyklu
             dayYear += 1
-            
             #ZÁPIS DO SOUBORU SE SEDMIDENNÍMI HODNOTAMI
             if (rowNumber % 7 == 6):
                 avSevenDay /= 7
-                avSevenDay = "{:.4f}".format(avSevenDay) #formátování a zároveň převod na string
-                firstDayWeek[5] = avSevenDay
+                firstDayWeek[5] = "{:.4f}".format(avSevenDay)   #formátování na 4 desetinná místa
                 writerWeek.writerow(firstDayWeek)
                 residueDay = 0
-                avSevenDay = float(avSevenDay)
                 avSevenDay = 0    #vynulování před znovu-projetím cyklu
             #VÝPOČET MAXIMA A MINIMA
-            if (theDay > float(max)):
+            if (theDay > float(maxCurrent)):
                 maxValue = row
-                max = row[5]
-            if (theDay < float(min)):
+                maxCurrent = row[5]
+            if (theDay < float(minCurrent) and theDay > 0):
                 minValue = row
-                min = row[5]
+                minCurrent = row[5]
+            """
+            if (theDay <= 0):
+                wrongValue = row
+                print("Řádek se zápornou či nezápornou hodnotou je",dataInput.line_num,"\n",wrongValue,":")
+                """
             rowNumber += 1
-
+        
+        #print("\n")    
         #PŘIDÁNÍ POSLEDNÍHO ŘÁDKU S ROČNÍM PRŮMĚREM
         if (calculateYear == theYear): #pokud počítaný rok není stejný jako rok theYear
             avYear /= dayYear
@@ -77,13 +74,15 @@ try:
             firstDayYear[5] = avYear
             writerYear.writerow(firstDayYear)
 
-        #PŘIDÁNÍ POSLEDNÍ ŘÁDKU SE SEDMIDENNÍM PRŮMĚREM
+        #PŘIDÁNÍ POSLEDNÍHO ŘÁDKU SE SEDMIDENNÍM PRŮMĚREM
         if (rowNumber % 7 != 6): #pokud se nejedný o neděli jinak stejný průběh jako v podmínce v cyklu
-            avSevenDay /= residueDay
+            avSevenDay /= residueDay      
             avSevenDay = "{:.4f}".format(avSevenDay)
             firstDayWeek[5] = avSevenDay
             writerWeek.writerow(firstDayWeek)
-        print(maxValue)
-        print(minValue)
+        print(f"Maximální hodnota průtoku nastala {maxValue[4]}.{maxValue[3]}.{maxValue[2]} a dosahovala hodnoty: {maxValue[5]}.")
+        print(f"Minimální hodnota průtoku nastala {minValue[4]}.{minValue[3]}.{minValue[2]} a dosahovala hodnoty: {minValue[5]}.")
+    
+        
 except IOError: #výjimka při načtení souboru
     print("Chybně načtený soubor")

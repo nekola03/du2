@@ -9,7 +9,7 @@ DEFINICE POMOCNÝCH PROMĚNNÝCH
 V této části jsou definovány pomocné proměnné před průběhem následného FOR cyklu. Jedná se například o proměnnou rowNumber, která slouží pro určení čísla řádku v n-té iteraci FOR cyklu.
 
 CYKLUS ČTOUCÍ ŘÁDKY VSTUPU
-V první části jsou určeny a následně zapsány do proměnné řádky, které se propíšou do souborů. Následuje zápis a úprava (přetypování na int či float) určitých hodnot v řádku. Dále se zde vyskytují vyjímky, ve kterých je především dosaženo výpočtu součtu hodnot pro týdenní, roční průměry a výpisu pátého sloupce, kdy hodnoty musí být shopna přetypovat na float hodnotu. V případě, že se nebude jednat o desetinné číslo, nebude přičtena k součtu. Tuto část si můžeme představit, že k celkovému součtu se přičte nulová hodnota a s řádkem se v následujících částích nadále operuje.
+V první části jsou určeny a následně zapsány do proměnné řádky, které se propíšou do souborů. Následuje zápis a úprava (přetypování na int či float) určitých hodnot v řádku. Dále se zde vyskytují výjimky, ve kterých je především dosaženo výpočtu součtu hodnot pro týdenní, roční průměry a výpisu pátého sloupce, kdy hodnoty musí být shopna přetypovat na float hodnotu. V případě, že se nebude jednat o desetinné číslo, nebude přičtena k součtu. Tuto část si můžeme představit, že k celkovému součtu se přičte nulová hodnota a s řádkem se v následujících částích nadále operuje.
 
 ZÁPIS DO SOUBORU S ROČNÍMI HODNOTAMI
 Pokud je načten první řádek s jiným rokem, tak je spočítán průměr a následně zapsán do CSV souboru s ročním průměrem. Tomu předchází výpočet průměru ze součtu hodnot a počtu dní. 

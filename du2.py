@@ -61,20 +61,21 @@ try:
                 minValue = row
                 minCurrent = row[5]
             
+            #VÝPIS NEKORETNÍCH DAT
             if (theDay <= 0):
                 wrongValue = row
-                print("Řádek se zápornou či nezápornou hodnotou je",dataInput.line_num,":\n",wrongValue)
-                
+                print("Řádek se zápornou či nulovou hodnotou je",dataInput.line_num,":\n",wrongValue)
+              
             rowNumber += 1
-          
         #PŘIDÁNÍ POSLEDNÍHO ŘÁDKU S ROČNÍM PRŮMĚREM
         if (calculateYear == theYear): #zapíše se, pokud se zapisovaný řádek s rokem rovná řádkům se stejným rokem 
+            avYear /= dayYear
             avYear = "{:.4f}".format(avYear)
             firstDayYear[5] = avYear
             writerYear.writerow(firstDayYear)
 
         #PŘIDÁNÍ POSLEDNÍHO ŘÁDKU SE SEDMIDENNÍM PRŮMĚREM
-        if (rowNumber % 7 != 6): #pokud se nejedný o neděli jinak stejný průběh jako v podmínce v cyklu
+        if (rowNumber % 7 != 0): #pokud se nejedný o neděli jinak stejný průběh jako v podmínce v cyklu
             avSevenDay /= residueDay      
             avSevenDay = "{:.4f}".format(avSevenDay)
             firstDayWeek[5] = avSevenDay

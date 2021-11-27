@@ -3,7 +3,7 @@ from typing import IO
 
 #NAČTENÍ DAT A ZÁKLADNÍ OPERACE  
 try:
-    with open ("Data_zelivka.csv", encoding="utf8") as csvInput,\
+    with open ("vstup.csv", encoding="utf8") as csvInput,\
         open("vystup_7dni.csv","w", encoding="utf8") as csvOutputWeek,\
         open("vystup_rok.csv","w", encoding="utf8") as csvOutputYear:
         dataInput = csv.reader(csvInput, delimiter = ",")
@@ -44,6 +44,7 @@ try:
                 firstDayYear = row
                 calculateYear = int(firstDayYear[2])
                 avYear = 0 #vynulování před znovu-projetím cyklu
+                dayYear = 0
             dayYear += 1
             #ZÁPIS DO SOUBORU SE SEDMIDENNÍMI HODNOTAMI
             if (rowNumber % 7 == 6):
@@ -59,17 +60,15 @@ try:
             if (theDay < float(minCurrent) and theDay > 0):
                 minValue = row
                 minCurrent = row[5]
-            """
+            
             if (theDay <= 0):
                 wrongValue = row
-                print("Řádek se zápornou či nezápornou hodnotou je",dataInput.line_num,"\n",wrongValue,":")
-                """
+                print("Řádek se zápornou či nezápornou hodnotou je",dataInput.line_num,":\n",wrongValue)
+                
             rowNumber += 1
-        
-        #print("\n")    
+          
         #PŘIDÁNÍ POSLEDNÍHO ŘÁDKU S ROČNÍM PRŮMĚREM
-        if (calculateYear == theYear): #pokud počítaný rok není stejný jako rok theYear
-            avYear /= dayYear
+        if (calculateYear == theYear): #zapíše se, pokud se zapisovaný řádek s rokem rovná řádkům se stejným rokem 
             avYear = "{:.4f}".format(avYear)
             firstDayYear[5] = avYear
             writerYear.writerow(firstDayYear)
